@@ -1,0 +1,25 @@
+{
+    "id": "./",
+    "name": "RIC Condominios",
+    "short_name": "RIC Condominios",
+    "description": "Administración del condominio: cuotas, visitas, alertas vecinales, mensajes, incidencias y transparencia.",
+    "lang": "es-MX",
+    "dir": "ltr",
+    "start_url": "./dashboard?origen=app",
+    "scope": "./",
+    "display": "standalone",
+    "display_override": ["standalone", "minimal-ui"],
+    "orientation": "portrait",
+    "background_color": "#F3F6FA",
+    "theme_color": "#0F2A47",
+    "categories": ["business", "productivity", "lifestyle"],
+    "icons": [
+        { "src": "app/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "app/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+        { "src": "app/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    ],
+    "shortcuts": [
+        { "name": "Alertas vecinales", "short_name": "Alertas", "url": "./seguridad/alertas?origen=app", "icons": [{ "src": "app/icono-192.png", "sizes": "192x192" }] },
+        { "name": "Mensajes", "short_name": "Mensajes", "url": "./mensajes?origen=app", "icons": [{ "src": "app/icono-192.png", "sizes": "192x192" }] }
+    ]
+}

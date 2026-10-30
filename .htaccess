@@ -1,0 +1,17 @@
+# Raíz del proyecto cuando el servidor no apunta directo a /public
+# (p. ej. https://ric.sistema-sicad.site/condominios con el proyecto en la carpeta "condominios").
+# Solo /public queda visible: el código, .env, vendor, storage… nunca se sirven.
+Options -Indexes
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Solo la petición original (no las redirecciones internas de estas mismas reglas)
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    # Archivos públicos subidos (equivale a "php artisan storage:link", que por FTP no se puede ejecutar)
+    RewriteRule ^storage/(.*)$ storage/app/public/$1 [L]
+
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^(?!public/)(.*)$ public/$1 [L]
+</IfModule>

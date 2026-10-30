@@ -1,0 +1,328 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Tu CSS personalizado */
+/* ===== ANIMACIONES GLOBALES ===== */
+@layer base {
+    * {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply antialiased;
+    }
+}
+
+
+/* ===== SCROLLBAR PERSONALIZADA ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c3ccd6;
+    @apply rounded-full transition;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #1a3a5c;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #c3ccd6 #f1f3f5;
+}
+
+/* ===== SELECTION ===== */
+::selection {
+    background-color: #1a3a5c;
+    @apply text-white;
+}
+
+/* ===== TRANSICIONES ===== */
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* ===== LOADING SPINNER ===== */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* ============================================================= */
+/*  PrimeVue: ConfirmDialog + Toast — estilo RIC (azul marino)    */
+/*  Se renderizan en <body> (fuera de estilos scoped): va aquí.   */
+/* ============================================================= */
+
+/* ---- Fondo del modal ---- */
+.p-dialog-mask.p-overlay-mask {
+    background: rgba(11, 20, 38, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+/* El ConfirmDialog debe quedar por ENCIMA de cualquier modal propio
+   (los overlays custom usan z-index ~1200). */
+.p-dialog-mask:has(.p-confirmdialog) {
+    z-index: 2200 !important;
+}
+
+@keyframes ric-dialog-in {
+    from { opacity: 0; transform: translateY(14px) scale(0.955); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes ric-dialog-icon-in {
+    0%   { opacity: 0; transform: scale(0.5); }
+    60%  { transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* ============ ConfirmDialog ============ */
+.p-dialog.p-confirmdialog {
+    width: 448px;
+    max-width: calc(100vw - 2rem);
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 30px 70px -14px rgba(11, 20, 38, 0.4), 0 0 0 1px rgba(11, 20, 38, 0.05);
+    animation: ric-dialog-in 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p-dialog.p-confirmdialog .p-dialog-header {
+    padding: 26px 26px 6px;
+    border: none;
+    background: #fff;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-title {
+    font-size: 1.1rem;
+    font-weight: 750;
+    color: #0b1426;
+    letter-spacing: -0.015em;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-header-actions {
+    display: none;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-content {
+    padding: 10px 26px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.p-dialog.p-confirmdialog .p-confirmdialog-icon,
+.p-dialog.p-confirmdialog .p-confirm-dialog-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    font-size: 1.4rem;
+    color: #1a3a5c;
+    background: rgba(26, 58, 92, 0.1);
+    box-shadow: 0 0 0 6px rgba(26, 58, 92, 0.06);
+    margin-top: 2px;
+    animation: ric-dialog-icon-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.p-dialog.p-confirmdialog:has(.p-button-danger) .p-confirmdialog-icon,
+.p-dialog.p-confirmdialog:has(.p-button-danger) .p-confirm-dialog-icon {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.06);
+}
+
+.p-dialog.p-confirmdialog .p-confirmdialog-message,
+.p-dialog.p-confirmdialog .p-confirm-dialog-message {
+    margin: 0;
+    padding-top: 5px;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer {
+    padding: 16px 26px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border: none;
+    background: #fff;
+    border-top: 1px solid #eef2f6;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button {
+    padding: 10px 22px;
+    font-size: 0.85rem;
+    font-weight: 650;
+    border-radius: 12px;
+    box-shadow: none;
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button:not(.p-button-danger):not(.p-button-secondary) {
+    background: #1a3a5c;
+    border-color: #1a3a5c;
+    color: #fff;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button.p-button-secondary {
+    background: #fff;
+    border-color: #d8dee6;
+    color: #475569;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button.p-button-danger {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff;
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button:hover:not(.p-button-secondary) {
+    transform: translateY(-1px);
+    filter: brightness(1.07);
+    box-shadow: 0 6px 16px -4px rgba(11, 20, 38, 0.3);
+}
+
+.p-dialog.p-confirmdialog .p-dialog-footer .p-button.p-button-secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* ============ Dialog genérico (modales propios) ============ */
+.p-dialog:not(.p-confirmdialog) {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px -14px rgba(11, 20, 38, 0.4), 0 0 0 1px rgba(11, 20, 38, 0.05);
+    animation: ric-dialog-in 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eef2f6;
+    background: #fff;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-title {
+    font-size: 1.05rem;
+    font-weight: 750;
+    color: #0b1426;
+    letter-spacing: -0.015em;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-header-actions .p-dialog-close-button {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    color: #64748b;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-header-actions .p-dialog-close-button:hover {
+    background: #f1f5f9;
+    color: #dc2626;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-content {
+    padding: 22px 24px;
+    color: #334155;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #eef2f6;
+    background: #fff;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.p-dialog:not(.p-confirmdialog) .p-dialog-footer .p-button {
+    padding: 9px 20px;
+    font-size: 0.85rem;
+    font-weight: 650;
+    border-radius: 12px;
+}
+
+/* ---- Toasts ---- */
+.p-toast {
+    width: 380px;
+    max-width: calc(100vw - 2rem);
+    z-index: 2400 !important;
+}
+
+.p-toast .p-toast-message {
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.22);
+    backdrop-filter: none;
+    overflow: hidden;
+}
+
+.p-toast .p-toast-message-content {
+    padding: 14px 16px;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.p-toast .p-toast-message-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+}
+
+.p-toast .p-toast-summary {
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: #0f2136;
+}
+
+.p-toast .p-toast-detail {
+    margin-top: 2px;
+    font-size: 0.82rem;
+    color: #475569;
+    line-height: 1.4;
+}
+
+.p-toast .p-toast-close-button {
+    width: 26px;
+    height: 26px;
+    color: #94a3b8;
+}
+
+/* Sólo el icono lleva color; sin barra ni contorno de color */
+.p-toast .p-toast-message-success .p-toast-message-icon { background: rgba(22, 163, 74, 0.12); color: #16a34a; }
+.p-toast .p-toast-message-error   .p-toast-message-icon { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+.p-toast .p-toast-message-warn    .p-toast-message-icon { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+.p-toast .p-toast-message-info    .p-toast-message-icon { background: rgba(26, 58, 92, 0.12); color: #1a3a5c; }

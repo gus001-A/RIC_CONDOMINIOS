@@ -1,0 +1,944 @@
+/* =====================================================================
+   Sistema visual de las pantallas de condominios (Ant Design Vue).
+   Portado de VenTrack / SURVICOS (clases vt-*) con la paleta de RIC.
+   Las pantallas originales de RIC (PrimeVue) no usan estas clases.
+   ===================================================================== */
+
+:root {
+    --vt-navy: #0f2a47;
+    --vt-blue: #1a5a96;
+    --vt-teal: #1597a5;
+    --vt-green: #1faf5c;
+    --vt-green-dark: #16804b;
+    --vt-amber: #f0a202;
+    --vt-red: #d9363e;
+    --vt-muted: #5d7085;
+    --vt-line: #e1e8f0;
+    --vt-bg: #f3f6fa;
+    --vt-blue-soft: #e6eef8;
+    --vt-green-soft: #e3f8ec;
+    --vt-gradient: linear-gradient(90deg, #1a3a5c 0%, #1a5a96 50%, #1597a5 100%);
+}
+
+/* Fondo y tipografía sólo dentro de las pantallas nuevas (contenedor .vt-page). */
+.vt-page {
+    color: var(--vt-navy);
+    font-family: Figtree, system-ui, sans-serif;
+}
+.vt-page h1, .vt-page h2, .vt-page h3, .vt-page h4, .vt-modal-title, .font-display {
+    font-family: 'Bricolage Grotesque', Figtree, sans-serif;
+    letter-spacing: -0.01em;
+}
+
+/* ---------- Encabezados de página ---------- */
+.vt-page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+.vt-page-head h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.vt-page-head p {
+    margin: 2px 0 0;
+    color: var(--vt-muted);
+}
+.vt-head-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: var(--vt-gradient);
+    font-size: 19px;
+    box-shadow: 0 6px 16px rgba(4, 97, 216, 0.22);
+    flex: none;
+}
+
+/* ---------- Tarjetas ---------- */
+.vt-card {
+    background: #fff;
+    border: 1px solid var(--vt-line);
+    border-radius: 14px;
+    padding: 16px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    min-width: 0;
+}
+.vt-card.hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px rgba(4, 97, 216, 0.12);
+    border-color: #bcd3f2;
+}
+.vt-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.vt-card-title h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.vt-card-title h3 .anticon {
+    color: var(--vt-blue);
+}
+
+.vt-muted {
+    color: var(--vt-muted);
+}
+.vt-small {
+    font-size: 12.5px;
+}
+
+/* ---------- Estatus ---------- */
+.vt-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 10px;
+    border-radius: 99px;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 20px;
+}
+.vt-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: none;
+}
+
+/* ---------- Barras ---------- */
+.vt-bar {
+    height: 9px;
+    border-radius: 9px;
+    background: #edf2f7;
+    overflow: hidden;
+}
+.vt-bar > i {
+    display: block;
+    height: 100%;
+    border-radius: 9px;
+    background: var(--vt-gradient);
+    transform-origin: left;
+    animation: vt-grow 0.8s 0.15s both;
+}
+
+/* ---------- Avatar ---------- */
+.vt-av {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 12px;
+    background: var(--vt-blue-soft);
+    color: var(--vt-blue);
+    flex: none;
+}
+
+/* ---------- Filas clicables ---------- */
+.vt-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 8px;
+    border-top: 1px solid var(--vt-line);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.vt-row:hover {
+    background: #f5f9fe;
+}
+.vt-row:first-child {
+    border-top: 0;
+}
+
+.vt-empty {
+    text-align: center;
+    color: var(--vt-muted);
+    padding: 22px 8px;
+    border: 1.5px dashed var(--vt-line);
+    border-radius: 12px;
+}
+
+/* ---------- Alertas ---------- */
+.vt-alert {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-left: 4px solid var(--vt-amber);
+    background: #fff4d9;
+    cursor: pointer;
+}
+.vt-alert .anticon {
+    color: #b97800;
+    margin-top: 3px;
+}
+.vt-alert.info {
+    background: var(--vt-blue-soft);
+    border-left-color: var(--vt-blue);
+}
+.vt-alert.info .anticon {
+    color: var(--vt-blue);
+}
+.vt-alert.ok {
+    background: var(--vt-green-soft);
+    border-left-color: var(--vt-green);
+    cursor: default;
+}
+.vt-alert.ok .anticon {
+    color: var(--vt-green-dark);
+}
+.vt-alert.error {
+    background: #fde8e9;
+    border-left-color: var(--vt-red);
+    cursor: default;
+}
+.vt-alert.error .anticon {
+    color: var(--vt-red);
+}
+
+/* ---------- Animaciones de entrada ---------- */
+.vt-enter > * {
+    animation: vt-rise 0.42s both;
+}
+.vt-enter > *:nth-child(2) { animation-delay: 0.05s; }
+.vt-enter > *:nth-child(3) { animation-delay: 0.1s; }
+.vt-enter > *:nth-child(4) { animation-delay: 0.15s; }
+.vt-enter > *:nth-child(5) { animation-delay: 0.2s; }
+.vt-enter > *:nth-child(6) { animation-delay: 0.25s; }
+.vt-enter > *:nth-child(7) { animation-delay: 0.3s; }
+
+@keyframes vt-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes vt-grow {
+    from { transform: scaleX(0); }
+    to { transform: none; }
+}
+@keyframes vt-pulse {
+    50% { transform: scale(1.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- Tablas ---------- */
+.vt-table .ant-table-row {
+    cursor: pointer;
+}
+
+/* ---------- Formularios en dos columnas ---------- */
+.vt-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 14px;
+}
+.vt-form-grid .full {
+    grid-column: 1 / -1;
+}
+@media (max-width: 640px) {
+    .vt-form-grid {
+        grid-template-columns: 1fr;
+    }
+    .vt-page-head h1 {
+        font-size: 22px;
+    }
+}
+
+/* ---------- Rejilla de 12 columnas ---------- */
+.vt-g12 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 14px;
+}
+.vt-g12 .s4 { grid-column: span 4; }
+.vt-g12 .s5 { grid-column: span 5; }
+.vt-g12 .s7 { grid-column: span 7; }
+.vt-g12 .s8 { grid-column: span 8; }
+@media (max-width: 991px) {
+    .vt-g12 > * { grid-column: 1 / -1 !important; }
+}
+
+/* ---------- Barra de filtros ---------- */
+.vt-filtros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px;
+}
+
+.vt-form-grid .span2 {
+    grid-column: span 2;
+}
+.vt-g3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+    .vt-g3 {
+        grid-template-columns: 1fr;
+    }
+    .vt-form-grid .span2 {
+        grid-column: 1 / -1;
+    }
+}
+
+/* ---------- Filtros al pie de la tabla ---------- */
+.ant-table-footer {
+    background: #f7fafc !important;
+    border-top: 1px solid var(--vt-line);
+}
+.vt-pie-filtros {
+    margin-top: 14px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid var(--vt-line);
+    border-radius: 14px;
+}
+.vt-pie-titulo {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--vt-muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.vt-pie-titulo .anticon {
+    color: var(--vt-blue);
+}
+
+/* ---------- Cabeceras de tabla con icono ---------- */
+.vt-th {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.vt-th .anticon {
+    color: var(--vt-blue);
+    opacity: 0.8;
+}
+
+/* ---------- Encabezado de modal ---------- */
+.vt-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.vt-modal-title .vt-head-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+.vt-modal-title small {
+    display: block;
+    color: var(--vt-muted);
+    font-size: 12.5px;
+    font-weight: 400;
+}
+.vt-sec-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--vt-navy);
+    margin: 4px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--vt-line);
+}
+.vt-sec-title .anticon {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 13px;
+}
+
+/* ---------- Botón de estado (activar / desactivar) ---------- */
+.vt-inactivo {
+    opacity: 0.6;
+}
+
+.vt-chip-teal {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #0e7d89;
+    background: #e1f5f7;
+    padding: 1px 9px;
+    border-radius: 99px;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.ant-modal .ant-modal-title {
+    font-family: 'Bricolage Grotesque', Figtree, sans-serif;
+    font-size: 18px;
+}
+
+/* Acciones de fila en una sola línea */
+.ant-table-cell:last-child > .ant-btn,
+.ant-table-cell:last-child > .ant-badge,
+.ant-table-cell:last-child > .ant-tooltip-open {
+    vertical-align: middle;
+}
+.vt-acciones-fila {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+/* ---------- Filtros alineados a cada columna (fila de resumen) ---------- */
+.vt-fsum > td {
+    background: #f7fafc !important;
+    border-top: 2px solid var(--vt-line);
+    padding: 12px 8px 14px !important;
+    vertical-align: bottom;
+}
+.vt-flabel {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--vt-muted);
+    margin-bottom: 6px;
+}
+.vt-flabel .anticon {
+    color: var(--vt-blue);
+}
+.vt-fsum .ant-select,
+.vt-fsum .ant-picker,
+.vt-fsum .ant-input-affix-wrapper,
+.vt-fsum .ant-segmented {
+    width: 100%;
+}
+.vt-fsum .vt-limpiar {
+    width: 100%;
+    border-style: dashed;
+}
+.vt-total b {
+    background: var(--vt-blue-soft);
+    color: var(--vt-blue);
+    padding: 1px 8px;
+    border-radius: 6px;
+    margin: 0 2px;
+}
+
+/* ---------- Tarjetas con scroll propio (la página no se desplaza) ---------- */
+.vt-scroll-cards {
+    max-height: calc(100vh - var(--reservado, 200px));
+    overflow-y: auto;
+    padding: 4px 6px 8px 2px;
+    margin: -4px -6px 0 -2px;
+    scrollbar-width: thin;
+}
+
+/* ---------- Tablas formales y uniformes ---------- */
+.ant-table-wrapper .ant-table-thead > tr > th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #44566c;
+    background: #f4f7fb;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.ant-table-wrapper .ant-table-tbody > tr > td {
+    vertical-align: middle;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.ant-table-wrapper .ant-table-cell-ellipsis {
+    overflow: hidden;
+}
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
+    margin: 12px 16px;
+}
+.ant-table-wrapper .ant-table-body {
+    scrollbar-width: thin;
+}
+
+.vt-meta a,
+.vt-content a {
+    text-decoration: none;
+}
+
+/* ===================== Animaciones de botones ===================== */
+.ant-btn {
+    transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.3), box-shadow 0.18s, background 0.18s, color 0.18s, border-color 0.18s !important;
+}
+.ant-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+}
+.ant-btn:not(:disabled):active {
+    transform: translateY(0) scale(0.95);
+}
+.ant-btn-primary:not(:disabled):hover {
+    box-shadow: 0 8px 18px rgba(4, 97, 216, 0.3) !important;
+}
+.ant-btn-default:not(:disabled):hover {
+    box-shadow: 0 6px 14px rgba(10, 31, 68, 0.1);
+}
+.ant-btn .anticon {
+    transition: transform 0.25s;
+}
+.ant-btn:not(:disabled):hover .anticon {
+    transform: scale(1.15);
+}
+.ant-btn:not(:disabled):hover .anticon-arrow-right {
+    transform: translateX(3px);
+}
+.ant-btn:not(:disabled):hover .anticon-plus,
+.ant-btn:not(:disabled):hover .anticon-plus-circle {
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* ===================== Botones de acción de colores ===================== */
+.ant-btn.vt-ab {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    display: inline-grid;
+    place-items: center;
+    font-size: 16px;
+    color: var(--ab);
+    background: color-mix(in srgb, var(--ab) 11%, #fff);
+    box-shadow: none;
+}
+.ant-btn.vt-ab:not(:disabled):hover {
+    color: #fff !important;
+    background: var(--ab) !important;
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--ab) 40%, transparent) !important;
+}
+.vt-ab.azul { --ab: #1a5a96; }
+.vt-ab.morado { --ab: #7c4ddb; }
+.vt-ab.verde { --ab: #1faf5c; }
+.vt-ab.rojo { --ab: #e5484d; }
+.vt-ab.naranja { --ab: #f08c00; }
+.vt-ab.teal { --ab: #1597a5; }
+.vt-acciones-fila {
+    gap: 6px !important;
+}
+
+/* ===================== Encabezado de página (barra de acento) ===================== */
+.vt-page-head h1 {
+    position: relative;
+    padding-left: 14px;
+}
+.vt-page-head h1::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 5px;
+    border-radius: 4px;
+    background: var(--vt-gradient);
+    background: linear-gradient(180deg, #1a5a96, #2dcb6a);
+}
+.vt-page-head p {
+    padding-left: 14px;
+}
+
+/* ===================== Barra de herramientas superior ===================== */
+.vt-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--vt-line);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+}
+.vt-toolbar-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--vt-blue);
+    white-space: nowrap;
+}
+.vt-toolbar .ant-segmented {
+    margin-left: auto;
+    padding: 4px;
+    border-radius: 12px;
+}
+.vt-toolbar .ant-segmented-item-selected {
+    box-shadow: 0 2px 8px rgba(10, 31, 68, 0.12);
+}
+
+/* ===================== Tarjetas de indicadores ===================== */
+.vt-kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.vt-kpi-c {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fff;
+    border: 1px solid var(--vt-line);
+    border-left: 4px solid var(--k);
+    border-radius: 12px;
+    padding: 10px 14px;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    animation: vt-rise 0.4s both;
+}
+button.vt-kpi-c {
+    cursor: pointer;
+}
+.vt-kpi-c:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--k) 18%, transparent);
+}
+.vt-kpi-c.on {
+    background: color-mix(in srgb, var(--k) 7%, #fff);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--k) 35%, transparent);
+}
+.vt-kpi-ic {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    color: #fff;
+    background: var(--k);
+    flex: none;
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--k) 35%, transparent);
+}
+.vt-kpi-c b {
+    display: block;
+    font: 800 20px 'Bricolage Grotesque', sans-serif;
+    line-height: 1.1;
+    color: var(--vt-navy);
+}
+.vt-kpi-c small {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--vt-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===================== Estatus sólidos ===================== */
+.vt-tag.solido {
+    color: #fff !important;
+    box-shadow: 0 3px 8px rgba(10, 31, 68, 0.12);
+}
+
+/* ===================== Filtros de la fila inferior ===================== */
+.vt-fsum .ant-input-affix-wrapper,
+.vt-fsum .ant-select-selector,
+.vt-fsum .ant-picker {
+    border-radius: 8px !important;
+}
+.vt-fsum input::placeholder,
+.vt-fsum .ant-select-selection-placeholder {
+    font-size: 12.5px;
+    color: #8193a6 !important;
+}
+.vt-fsum > td {
+    background: #eef3f9 !important;
+}
+.vt-nowrap {
+    white-space: nowrap;
+}
+
+/* ===================== Pestañas de formularios ===================== */
+.vt-tabs-form > .ant-tabs-nav {
+    margin-bottom: 18px !important;
+}
+.vt-tabs-form .ant-tabs-tab {
+    padding: 10px 4px !important;
+}
+.vt-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+}
+.vt-tab .anticon {
+    margin: 0 !important;
+}
+.vt-tab-err {
+    color: #e5484d;
+    animation: vt-pulse 1.2s ease-in-out infinite;
+}
+.vt-tabs-form .ant-tabs-content {
+    min-height: 250px;
+}
+
+.vt-suc-reg {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--vt-line);
+}
+
+.vt-total-pie {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--vt-muted);
+    text-align: right;
+}
+
+.vt-pie-izq {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+.vt-visor-stage.imagen {
+    background-color: #eef2f7;
+    background-image: linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+    background-size: 24px 24px;
+    background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+}
+.vt-visor-stage.imagen .vt-visor-img {
+    box-shadow: 0 12px 30px rgba(10, 31, 68, 0.18);
+}
+
+/* Herramientas de contraseña (usuarios y mi perfil) */
+.vt-pass-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    background: #f7fafc;
+    border: 1px dashed var(--vt-line);
+    border-radius: 12px;
+}
+.vt-fuerza {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+.vt-fuerza-bar {
+    display: flex;
+    gap: 3px;
+}
+.vt-fuerza-bar i {
+    width: 26px;
+    height: 6px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+/* Rangos rápidos de fecha (Visitas y Reportes) */
+.vt-rangos {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.vt-rangos button {
+    border: 1px solid var(--vt-line);
+    background: #fff;
+    border-radius: 99px;
+    padding: 6px 14px;
+    font: 600 13px Figtree, sans-serif;
+    color: #44566c;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+}
+.vt-rangos button .anticon {
+    color: #f0a202;
+}
+.vt-rangos button:hover {
+    transform: translateY(-2px);
+    border-color: var(--vt-blue);
+}
+.vt-rangos button.on {
+    background: var(--vt-blue);
+    border-color: var(--vt-blue);
+    color: #fff;
+}
+.vt-rangos button.on .anticon {
+    color: #fff;
+}
+.vt-rangos button.quitar {
+    color: #e5484d;
+    border-color: #f6c6c8;
+}
+.vt-rangos button.quitar .anticon {
+    color: #e5484d;
+}
+
+/* Botones de exportación */
+.rp-btn {
+    color: #fff !important;
+    border: 0 !important;
+}
+.rp-btn.pdf {
+    background: #d9363e !important;
+}
+.rp-btn.xls {
+    background: #1d8a4e !important;
+}
+.rp-btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+}
+
+/* ===================== Modales compactos ===================== */
+/* El contenido nunca rebasa la pantalla: el cuerpo hace scroll y el pie queda visible */
+.ant-modal-wrap:not(.vt-visor-wrap):not(.vt-vm-wrap) .ant-modal-body {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+.ant-modal .ant-form-vertical .ant-form-item {
+    margin-bottom: 14px;
+}
+.ant-modal .ant-form-vertical .ant-form-item-label {
+    padding-bottom: 4px;
+}
+.ant-modal .ant-modal-footer {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--vt-line);
+}
+.vt-radio-full {
+    display: flex;
+}
+.vt-radio-full .ant-radio-button-wrapper {
+    flex: 1;
+    text-align: center;
+}
+.vt-link-fila {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr) auto;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+
+/* ===================== Contenedor de página =====================
+   Mismo ancho y márgenes que la barra de navegación: encabezado, tarjetas,
+   tablas y formularios quedan alineados entre sí. */
+.vt-wrap {
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 6px 16px 28px;
+}
+@media (min-width: 640px) { .vt-wrap { padding-left: 24px; padding-right: 24px; } }
+@media (min-width: 1024px) { .vt-wrap { padding-left: 32px; padding-right: 32px; } }
+
+/* Secciones de formulario: tarjeta limpia, sin franja de color a la izquierda. */
+.vt-seccion { background: #fff; border: 1px solid var(--vt-line); border-radius: 14px; padding: 16px 18px; }
+.vt-seccion + .vt-seccion { margin-top: 14px; }
+.vt-seccion-t { display: flex; align-items: center; gap: 8px; font: 700 15px 'Bricolage Grotesque', Figtree, sans-serif; color: var(--vt-navy); margin-bottom: 12px; }
+.vt-seccion-t .anticon { color: var(--vt-blue); }
+.vt-dato { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.vt-dato > span:first-child { font-size: 11.5px; font-weight: 600; color: var(--vt-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+.vt-dato > span:last-child { font-size: 14px; color: var(--vt-navy); font-weight: 500; word-break: break-word; }
+.vt-grid-datos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; }
+.vt-grid-datos .full { grid-column: 1 / -1; }
+/* Secciones dentro de una tarjeta: sin doble borde, separadas por una línea. */
+.vt-card > .vt-seccion { border: 0; padding: 0; border-radius: 0; }
+.vt-card > .vt-seccion + .vt-seccion { border-top: 1px solid var(--vt-line); padding-top: 16px; margin-top: 16px; }
+
+/* =====================================================================
+   Iconos alineados con su texto en todos los botones de Ant Design
+   (el texto suelto junto al icono quedaba ~3 px más arriba).
+   ===================================================================== */
+.ant-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.ant-btn.ant-btn-block { display: flex; }
+.ant-btn > .anticon + span,
+.ant-btn > span + .anticon { margin-inline-start: 0 !important; }
+.ant-btn > .anticon { line-height: 0; }
+.vt-tag .anticon, .vt-th .anticon, .vt-reg .anticon { line-height: 0; }
+
+/* =====================================================================
+   Celular: los bloques de una cuadrícula no deben ensancharse por su
+   contenido (un correo largo, una fecha sin cortes); así nada se sale
+   de la pantalla y el navegador no "aleja" la vista.
+   ===================================================================== */
+.vt-wrap .grid > *,
+.vt-wrap .flex > .flex-1 { min-width: 0; }
+.vt-dato > span:last-child { overflow-wrap: anywhere; }
+@media (max-width: 767px) {
+    .vt-wrap { padding-left: 12px; padding-right: 12px; }
+    .vt-page-head { flex-wrap: wrap; gap: 10px; }
+    .vt-page-head h1 { font-size: 21px; align-items: flex-start; }
+    .vt-page-head h1 .truncate { white-space: normal; overflow: visible; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .vt-card { padding: 14px; border-radius: 16px; }
+    .vt-kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .vt-form-grid { grid-template-columns: minmax(0, 1fr) !important; }
+    .ant-modal { max-width: calc(100vw - 16px) !important; margin: 8px auto !important; }
+    .ant-modal-centered .ant-modal { top: 0; }
+}
+/* Selectores segmentados largos: se desplazan de lado en lugar de ensanchar la página. */
+.ant-segmented { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.ant-segmented::-webkit-scrollbar { display: none; }
+.ant-segmented .ant-segmented-item { flex: none; }
+@media (max-width: 767px) {
+    .vt-toolbar { flex-wrap: wrap; }
+    .vt-toolbar > span.flex-1:empty { display: none; }
+}
+
+/* App en el celular: sin barra superior (todo está en la barra inferior). */
+@media (max-width: 767px) {
+    .con-barra-app .franja-alerta { top: 0 !important; padding-top: env(safe-area-inset-top); }
+    .con-barra-app main.app-sin-barra { padding-top: max(14px, env(safe-area-inset-top)); }
+}
