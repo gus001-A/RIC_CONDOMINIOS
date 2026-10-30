@@ -233,7 +233,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <img src="{{ asset('images/logo.png') }}" alt="RIC Logo">
+            <img src="{{ asset('logos/logo.png') }}" alt="RIC Logo">
             <h1>RIC</h1>
             <p>Red Informática Contable</p>
         </div>
