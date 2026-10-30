@@ -8,7 +8,7 @@
  *
  * Al cambiar algo aquí, sube VERSION para que los teléfonos tomen la nueva.
  */
-const VERSION = 'v4';
+const VERSION = 'v5';
 const CACHE_ESTATICOS = `ric-estaticos-${VERSION}`;
 const BASE = new URL('./', self.location).pathname; // funciona también en subcarpeta
 const SIN_CONEXION = `${BASE}offline.html`;

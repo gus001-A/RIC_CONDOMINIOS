@@ -13,7 +13,7 @@
                                 <img 
                                     :src="logoImage"
                                     alt="RIC Logo" 
-                                    class="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                                    class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                                     @error="handleLogoError"
                                     v-if="logoExists"
                                 />
