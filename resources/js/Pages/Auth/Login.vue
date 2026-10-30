@@ -1,96 +1,152 @@
 <template>
     <Head title="Iniciar Sesión" />
 
-    <AuthShell title="Bienvenido" subtitle="Accede con tu usuario y contraseña">
-        <form @submit.prevent="submit" class="space-y-5">
-            <!-- Usuario -->
-            <div class="space-y-1.5">
-                <label class="text-sm font-semibold text-gray-700">Nombre de Usuario</label>
-                <IconField>
-                    <InputIcon class="pi pi-user" />
-                    <InputText
-                        v-model="form.username"
-                        placeholder="Ingresa tu usuario"
-                        class="w-full auth-input"
-                        autocomplete="username"
-                    />
-                </IconField>
-                <Message v-if="form.errors.username" severity="error" size="small" variant="simple">
-                    {{ form.errors.username }}
-                </Message>
-            </div>
+    <div class="login-layout">
+        <!-- ================= PANEL IZQUIERDO ================= -->
+        <div class="brand-panel">
+            <!-- Patrón de puntos -->
+            <div class="pattern-dots"></div>
+            
+            <!-- Círculo punteado decorativo -->
+            <div class="decor-circle"></div>
 
-            <!-- Contraseña -->
-            <div class="space-y-1.5">
-                <label class="text-sm font-semibold text-gray-700">Contraseña</label>
-                <Password
-                    v-model="form.password"
-                    placeholder="Ingresa tu contraseña"
-                    :feedback="false"
-                    toggle-mask
-                    fluid
-                    input-class="auth-input"
-                    class="w-full"
-                />
-                <Message v-if="form.errors.password" severity="error" size="small" variant="simple">
-                    {{ form.errors.password }}
-                </Message>
-            </div>
+            <div class="brand-content">
+                <!-- Tarjeta del logo -->
+                <div class="logo-card floating">
+                    <img :src="logoPath" alt="RIC Logo" class="logo-img" />
+                </div>
 
-            <!-- Recordarme y olvidé contraseña -->
-            <div class="flex items-center justify-between py-1">
-                <label class="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
-                    <Checkbox v-model="form.remember" binary />
-                    Recordarme
-                </label>
-                <Link
-                    :href="route('password.request')"
-                    class="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 flex items-center gap-1"
-                >
-                    <i class="pi pi-question-circle text-xs"></i>
-                    ¿Olvidaste tu contraseña?
-                </Link>
-            </div>
+                <!-- Línea divisoria -->
+                <div class="separator-line"></div>
 
-            <!-- Botón Iniciar Sesión -->
-            <Button
-                type="submit"
-                :loading="form.processing"
-                :label="form.processing ? 'Ingresando...' : 'Iniciar Sesión'"
-                :icon="form.processing ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-                class="w-full auth-submit-btn"
-            />
+                <!-- Texto -->
+                <div class="brand-text">
+                    <h2>Red Integral de Condominios</h2>
+                </div>
 
-            <div class="text-center pt-3">
-                <div class="inline-flex items-center gap-2.5 px-5 py-2.5 bg-gray-50/80 backdrop-blur-sm rounded-full border border-gray-200/50 shadow-sm">
-                    <i class="pi pi-shield text-gray-400"></i>
-                    <span class="text-xs text-gray-500 font-light">Sistema de acceso restringido</span>
+                <!-- Tarjetas de características -->
+                <div class="features-grid">
+                    <div class="feature-item slide-in-1">
+                        <div class="feature-icon"><i class="pi pi-wallet"></i></div>
+                        <h4>Contabilidad</h4>
+                        <p>Gestión de cuotas, ingresos y estados de cuenta.</p>
+                    </div>
+                    <div class="feature-item slide-in-2">
+                        <div class="feature-icon"><i class="pi pi-wrench"></i></div>
+                        <h4>Mantenimiento</h4>
+                        <p>Planes preventivos y control de activos.</p>
+                    </div>
+                    <div class="feature-item slide-in-3">
+                        <div class="feature-icon"><i class="pi pi-users"></i></div>
+                        <h4>Control de Visitas</h4>
+                        <p>Registro de accesos y seguridad del condominio.</p>
+                    </div>
                 </div>
             </div>
-        </form>
 
-        <!-- Accesos de prueba por rol (sólo en desarrollo, como en VenTrack) -->
-        <div v-if="demo.length" class="lg-demo">
-            <div class="lg-demo-t"><ThunderboltOutlined /> Accesos de demostración (solo desarrollo)</div>
-            <div class="lg-demo-lista">
-                <button v-for="u in demo" :key="u.usuario" type="button" class="lg-demo-btn" :style="{ '--c': ROLES[u.rol]?.color }"
-                    :disabled="form.processing" :title="`Entrar como ${u.nombre}`" @click="demoLogin(u)">
-                    <span class="lg-demo-ic"><component :is="ROLES[u.rol]?.icono" /></span>
-                    <span class="min-w-0">
-                        <b>{{ ROLES[u.rol]?.label || u.rol }}</b>
-                        <small>{{ u.usuario }}</small>
-                    </span>
-                </button>
+            <!-- Footer -->
+            <div class="brand-footer">
+                <p>© 2026 RIC · Plataforma de Gestión Condominal</p>
             </div>
         </div>
-    </AuthShell>
+
+        <!-- ================= PANEL DERECHO ================= -->
+        <div class="form-panel">
+            <!-- Formulario centrado -->
+            <div class="form-wrapper">
+                <!-- Encabezado -->
+                <div class="form-header anim-fade-up" style="--delay: 0.1s">
+                    <div class="header-line"></div>
+                    <h1 class="form-title">Bienvenido</h1>
+                    <p class="form-subtitle">Ingresa a tu cuenta para acceder al sistema</p>
+                </div>
+
+                <form @submit.prevent="submit" class="form-body">
+                    <!-- Correo -->
+                    <div class="input-group anim-fade-up" style="--delay: 0.2s">
+                        <label class="input-label">Correo Electrónico</label>
+                        <IconField>
+                            <InputIcon class="pi pi-envelope text-gray-400" />
+                            <InputText
+                                v-model="form.username"
+                                placeholder="correo.advertencias@gmail.com"
+                                class="w-full custom-input"
+                                autocomplete="username"
+                            />
+                        </IconField>
+                        <Message v-if="form.errors.username" severity="error" size="small" variant="simple" class="mt-1">
+                            {{ form.errors.username }}
+                        </Message>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="input-group anim-fade-up" style="--delay: 0.3s">
+                        <label class="input-label">Contraseña</label>
+                        <Password
+                            v-model="form.password"
+                            placeholder="••••••••••"
+                            :feedback="false"
+                            toggle-mask
+                            fluid
+                            input-class="custom-input"
+                            class="w-full custom-password"
+                        />
+                        <Message v-if="form.errors.password" severity="error" size="small" variant="simple" class="mt-1">
+                            {{ form.errors.password }}
+                        </Message>
+                    </div>
+
+                    <!-- Opciones -->
+                    <div class="options-row anim-fade-up" style="--delay: 0.4s">
+                        <label class="checkbox-label">
+                            <Checkbox v-model="form.remember" binary />
+                            Recordarme
+                        </label>
+                        <Link
+                            :href="route('password.request')"
+                            class="forgot-link"
+                        >
+                            ¿Olvidaste tu contraseña?
+                        </Link>
+                    </div>
+
+                    <!-- Botón -->
+                    <div class="anim-fade-up" style="--delay: 0.5s">
+                        <Button
+                            type="submit"
+                            :loading="form.processing"
+                            :label="form.processing ? 'Ingresando...' : 'Iniciar sesión'"
+                            :icon="form.processing ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
+                            class="w-full btn-primary btn-shine"
+                        />
+                    </div>
+                </form>
+
+                <!-- Accesos Demo -->
+                <div v-if="demo.length" class="demo-section anim-fade-up" style="--delay: 0.6s">
+                    <div class="demo-divider">
+                        <span>Accesos de prueba</span>
+                    </div>
+                    <div class="demo-grid">
+                        <button v-for="u in demo" :key="u.usuario" type="button" class="demo-btn" :style="{ '--c': ROLES[u.rol]?.color }"
+                            :disabled="form.processing" @click="demoLogin(u)">
+                            <span class="demo-icon pop-in"><component :is="ROLES[u.rol]?.icono" /></span>
+                            <span class="demo-info">
+                                <b>{{ ROLES[u.rol]?.label || u.rol }}</b>
+                                <small>{{ u.usuario }}</small>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import { message } from 'ant-design-vue';
-import AuthShell from '@/Layouts/AuthShell.vue';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import InputText from 'primevue/inputtext';
@@ -103,17 +159,17 @@ import { ThunderboltOutlined, CrownOutlined, HomeOutlined, SafetyOutlined, ToolO
 const props = defineProps({
     status: { type: String, default: null },
     canResetPassword: { type: Boolean, default: true },
-    // Cuentas de prueba [{ usuario, nombre, rol, password }]; sólo llegan en desarrollo.
     demo: { type: Array, default: () => [] },
 });
 
+const logoPath = '/logos/logo.png';
+
 const ROLES = {
-    ADMINISTRADOR: { label: 'Administración', icono: CrownOutlined, color: '#1a5a96' },
+    ADMINISTRADOR: { label: 'Administración', icono: CrownOutlined, color: '#1b4dd1' },
     CONDOMINO: { label: 'Condómino', icono: HomeOutlined, color: '#1faf5c' },
     VIGILANCIA: { label: 'Vigilancia', icono: SafetyOutlined, color: '#d9363e' },
     MANTENIMIENTO: { label: 'Mantenimiento', icono: ToolOutlined, color: '#f0a202' },
 };
-
 
 const form = useForm({
     username: '',
@@ -128,16 +184,13 @@ const submit = () => {
                 message.error('Usuario o contraseña incorrectos. Verifica tus credenciales.');
             } else {
                 const firstError = Object.values(errors)[0];
-                if (firstError) {
-                    message.warning(firstError);
-                }
+                if (firstError) message.warning(firstError);
             }
         },
         onFinish: () => form.reset('password'),
     });
 };
 
-// Llena usuario y contraseña de la cuenta de prueba y entra.
 const demoLogin = (u) => {
     form.username = u.usuario;
     form.password = u.password;
@@ -146,118 +199,501 @@ const demoLogin = (u) => {
 
 onMounted(() => {
     if (props.status) {
-        setTimeout(() => {
-            message.success(props.status);
-        }, 400);
+        setTimeout(() => message.success(props.status), 400);
     }
 });
 </script>
 
 <style scoped>
-::selection {
-    background: linear-gradient(to right, #3b82f6, #1a3a5c);
-    color: white;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ================= LAYOUT GENERAL ================= */
+.login-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
 }
 
-:deep(.auth-input) {
-    border-radius: 1rem;
-    border: 2px solid #e5e7eb;
-    background: rgba(249, 250, 251, 0.5);
-    padding: 0.875rem 1rem;
-    transition: all 0.2s ease;
+/* ================= PANEL IZQUIERDO ================= */
+.brand-panel {
+    position: relative;
+    width: 55%; 
+    background: linear-gradient(135deg, #1b4dd1 0%, #123a9e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 6rem 4rem 3rem;
+    z-index: 2;
+}
+
+/* Borde Curvado */
+.brand-panel::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%; 
+    width: 25%;
+    height: 120%;
+    background: #ffffff; 
+    border-radius: 50%; 
+    z-index: -1;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.05); 
+}
+
+/* Patrón de puntos */
+.pattern-dots {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 130px;
+    height: 130px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+    background-size: 18px 18px;
+    z-index: 1;
+}
+
+/* Círculo punteado */
+.decor-circle {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255, 255, 255, 0.15);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.brand-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Tarjeta del Logo - Un poquito más grande */
+.logo-card {
+    background: #ffffff;
+    padding: 1.5rem 3.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 480px; 
+    display: flex;
+    justify-content: center;
+}
+
+.logo-img {
+    height: 145px; /* 🔥 Ajustado a 145px */
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Línea divisoria */
+.separator-line {
+    width: 80px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+}
+
+/* Texto de Branding */
+.brand-text {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.brand-text h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+/* Grid de Características */
+.features-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
     width: 100%;
 }
 
-:deep(.auth-input:hover) {
-    border-color: #3b82f6;
-    background: #fff;
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1;
 }
 
-:deep(.auth-input:focus) {
-    border-color: #3b82f6;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-}
-
-.auth-submit-btn {
-    height: 3rem;
-    font-weight: 600;
-    border-radius: 1rem;
-    border: 0;
-    background: linear-gradient(to right, #2563eb, #1d4ed8, #4338ca);
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
-    transition: all 0.3s ease;
-}
-
-.lg-demo {
-    margin-top: 22px;
-    padding: 14px;
-    border: 1.5px dashed #d5dee8;
-    border-radius: 14px;
-}
-.lg-demo-t {
-    text-align: center;
-    font-size: 12px;
-    color: #6b7c90;
-    margin-bottom: 10px;
-}
-.lg-demo-t .anticon {
-    color: #f0a202;
-}
-.lg-demo-lista {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-}
-.lg-demo-btn {
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    text-align: left;
-    background: #fff;
-    border: 1px solid #e1e8f0;
-    border-radius: 999px;
+    justify-content: center;
+    color: #ffffff;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+.feature-item h4 {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem 0;
+}
+
+.feature-item p {
+    color: #a9c4e0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.brand-footer {
+    position: absolute;
+    bottom: 25px;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+}
+
+/* ================= PANEL DERECHO (Formulario Centrado) ================= */
+.form-panel {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    padding: 3rem; 
+    z-index: 1;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 380px; 
+    transform: translateY(-40px);
+}
+
+/* Encabezado */
+.form-header {
+    margin-bottom: 2rem;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.header-line {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    height: 26px;
+    width: 3.5px;
+    background: #1b4dd1;
+    border-radius: 4px;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f2a47;
+    margin: 0 0 0.2rem 0;
+    letter-spacing: -0.02em;
+}
+
+.form-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Formulario */
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.input-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Inputs */
+:deep(.custom-input) {
+    border-radius: 0.6rem;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    padding: 0.85rem 1rem;
+    width: 100%;
+    color: #1e293b;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+:deep(.custom-input::placeholder) {
+    color: #94a3b8;
+}
+
+:deep(.custom-input:hover) {
+    border-color: #cbd5e1;
+}
+
+:deep(.custom-input:focus) {
+    border-color: #1b4dd1;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(27, 77, 209, 0.1);
+    outline: none;
+}
+
+:deep(.custom-password .p-password-input) {
+    padding-left: 2.5rem !important;
+}
+
+/* Opciones */
+.options-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: #475569;
+    cursor: pointer;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    color: #1b4dd1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.forgot-link:hover {
+    color: #123a9e;
+    text-decoration: underline;
+}
+
+/* Botón Principal */
+.btn-primary {
+    height: 3.1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 0.6rem;
+    border: 0;
+    background: #1b4dd1;
+    color: #ffffff;
+    box-shadow: 0 8px 15px -5px rgba(27, 77, 209, 0.4);
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    background: #153ea8;
+    box-shadow: 0 12px 20px -5px rgba(27, 77, 209, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Efecto Shine */
+.btn-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    transition: left 0.7s ease;
+}
+
+.btn-shine:hover::before {
+    left: 150%;
+}
+
+/* ================= SECCIÓN DEMO ================= */
+.demo-section {
+    margin-top: 2rem;
+}
+
+.demo-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.demo-divider::before,
+.demo-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.demo-divider span {
+    padding: 0 0.8rem;
+    color: #94a3b8;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.demo-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.6rem;
     transition: all 0.2s ease;
+    text-align: left;
 }
-.lg-demo-btn:hover:not(:disabled) {
+
+.demo-btn:hover:not(:disabled) {
     border-color: var(--c);
-    background: color-mix(in srgb, var(--c) 6%, #fff);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(15, 42, 71, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
 }
-.lg-demo-btn:disabled {
-    opacity: 0.6;
-    cursor: wait;
-}
-.lg-demo-ic {
+
+.demo-icon {
     flex: none;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
+    background: var(--c);
+    color: #fff;
     display: grid;
     place-items: center;
-    color: #fff;
-    background: var(--c);
-    font-size: 14px;
+    font-size: 0.75rem;
 }
-.lg-demo-btn b {
+
+.demo-info b {
     display: block;
-    font-size: 13px;
-    color: #0f2a47;
-    line-height: 1.2;
+    font-size: 0.75rem;
+    color: #1e293b;
+    font-weight: 600;
 }
-.lg-demo-btn small {
+
+.demo-info small {
     display: block;
-    font-size: 11px;
-    color: #8193a6;
+    font-size: 0.65rem;
+    color: #64748b;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.auth-submit-btn:hover {
-    background: linear-gradient(to right, #1d4ed8, #1e40af, #3730a3);
-    box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
+/* ================= ANIMACIONES ================= */
+@keyframes floating {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+.floating {
+    animation: floating 5s ease-in-out infinite;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.anim-fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    animation-delay: var(--delay, 0s);
+}
+
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in-1 { animation: slideRight 0.6s ease-out forwards; animation-delay: 0.2s; opacity: 0; }
+.slide-in-2 { animation: slideRight 0.6s ease-out forwards; animation-delay: 0.4s; opacity: 0; }
+.slide-in-3 { animation: slideRight 0.6s ease-out forwards; animation-delay: 0.6s; opacity: 0; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1100px) {
+    .login-layout {
+        flex-direction: column;
+    }
+    .brand-panel {
+        width: 100%;
+        padding: 4rem 2rem;
+        border-radius: 0 0 3rem 3rem;
+    }
+    .brand-panel::after {
+        display: none; 
+    }
+    .form-panel {
+        width: 100%;
+        padding: 3rem 2rem;
+    }
+    .brand-footer {
+        position: relative;
+        bottom: auto;
+        margin-top: 2rem;
+    }
+    .features-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .feature-item {
+        flex: 1 1 200px;
+    }
+    .form-wrapper {
+        transform: translateY(0); 
+    }
+}
+
+@media (max-width: 600px) {
+    .form-title { font-size: 1.75rem; }
+    .logo-card { padding: 1.5rem 2rem; max-width: 100%; }
+    .logo-img { height: 100px; }
+    .features-grid { flex-direction: column; gap: 1.5rem; }
+    .feature-item { flex: 1 1 100%; }
+    .form-wrapper { max-width: 100%; }
 }
 </style>

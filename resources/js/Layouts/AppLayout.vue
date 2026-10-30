@@ -7,46 +7,24 @@
             <div class="max-w-[96rem] mx-auto px-4 sm:px-6 lg:px-8">
                 <!-- Logo a la izquierda, opciones al centro, usuario a la derecha -->
                 <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 h-16">
-                    <div class="flex items-center min-w-0">
-                        <Link :href="'/dashboard'" class="flex items-center gap-3 group">
-                            <div class="relative">
-                                <img 
-                                    :src="logoImage"
-                                    alt="RIC Logo" 
-                                    class="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-                                    @error="handleLogoError"
-                                    v-if="logoExists"
-                                />
-                                <div v-else class="h-12 w-12 bg-gradient-to-br from-[#0A1628] to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">RIC
-                                </div>
-                                <div class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#0A1628] to-blue-600 transition-all duration-300 group-hover:w-full"></div>
+                <div class="flex items-center min-w-0">
+                    <Link :href="'/dashboard'" class="flex items-center">
+                        <div class="flex items-center justify-center h-14 w-auto min-w-[3.5rem]">
+                            <img 
+                                :src="logoImage"
+                                alt="RIC Logo" 
+                                class="h-14 w-auto object-contain"
+                                @error="handleLogoError"
+                                v-if="logoExists"
+                            />
+                            <div v-else class="h-14 w-14 bg-gradient-to-br from-[#0A1628] to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
+                                RIC
                             </div>
-                        </Link>
-                    </div>
-
+                        </div>
+                    </Link>
+                </div>
                         <!-- Menú de navegación desktop con PERMISOS -->
                         <div class="hidden xl:flex items-center justify-center gap-0.5">
-
-                            <!-- Movimientos -->
-                            <Link 
-                                v-if="permisos?.puede_ver"
-                                :href="'/movimientos'"
-                                class="relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300"
-                                :class="[
-                                    $sinBase($page.url).startsWith('/movimientos') 
-                                        ? 'text-[#0A1628] bg-[#0A1628]/5' 
-                                        : 'text-gray-600 hover:text-[#0A1628] hover:bg-[#0A1628]/5'
-                                ]"
-                            >
-                                <span class="flex items-center gap-2">
-                                    <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                                    </svg>
-                                    Movimientos
-                                </span>
-                                <span v-if="$sinBase($page.url).startsWith('/movimientos')" 
-                                      class="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#0A1628] rounded-full"></span>
-                            </Link>
 
                             <!-- Condominios: para el personal se agrupa en "Condominio" y "Finanzas" -->
                             <template v-for="entrada in menuEscritorio" :key="entrada.key">
@@ -275,27 +253,7 @@
                                 </span>
                             </Link>
 
-                            <!-- Movimientos -->
-                            <Link
-                                v-if="permisos?.puede_ver"
-                                :href="'/movimientos'"
-                                class="block px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:translate-x-1"
-                                :class="[
-                                    $sinBase($page.url).startsWith('/movimientos') 
-                                        ? 'text-[#0A1628] bg-[#0A1628]/5' 
-                                        : 'text-gray-600 hover:text-[#0A1628] hover:bg-[#0A1628]/5'
-                                ]"
-                                @click="mobileMenuOpen = false"
-                            >
-                                <span class="flex items-center gap-3">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                                    </svg>
-                                    Movimientos
-                                </span>
-                            </Link>
-
-                            <!-- Casas (condominios) -->
+                            <!-- Condominios + Movimientos (ya incluidos en menuCondominios) -->
                             <Link
                                 v-for="item in menuCondominios"
                                 :key="item.href"
@@ -470,6 +428,7 @@ const permisos = computed(() => page.props.permisos || {});
 const tipoUsuario = computed(() => page.props.auth?.user?.tipo_usuario || '');
 
 const ROLES_INICIO = ['CONDOMINO', 'VIGILANCIA', 'MANTENIMIENTO', 'ADMINISTRADOR', 'SUPERUSUARIO', 'AUDITOR'];
+const ROLES_MENU_PLANO = ['CONDOMINO', 'VIGILANCIA', 'MANTENIMIENTO'];
 
 // Menú de condominios (lista plana; el menú móvil la usa tal cual).
 // `grupo` sólo aplica al personal en escritorio, para que la barra quepa.
@@ -481,6 +440,8 @@ const menuCondominios = computed(() => {
 
     // Inicio: tablero de cada rol (los roles contables de RIC no lo tienen).
     add(ROLES_INICIO.includes(tipoUsuario.value), { label: 'Inicio', href: '/inicio', icono: 'pi pi-th-large', activo: url.startsWith('/inicio') });
+    // Movimientos (contable): va justo después de Inicio para el personal.
+    add(p.puede_ver && !ROLES_MENU_PLANO.includes(tipoUsuario.value), { label: 'Movimientos', href: '/movimientos', icono: 'pi pi-list', activo: url.startsWith('/movimientos') });
     // Alta y edición de condominios (pantalla "empresas" de RIC): superusuario y administrador.
     add(p.puede_ver_empresas, { label: 'Condominios', href: '/empresas', icono: 'pi pi-building', activo: url.startsWith('/empresas'), grupo: 'condominio' });
     add(p.puede_ver_mi_casa, { label: 'Mi casa', href: '/mi-casa', icono: 'pi pi-home', activo: url.startsWith('/mi-casa') || url.startsWith('/casas') });
@@ -506,7 +467,6 @@ const GRUPOS = {
 
 // Escritorio: condómino, vigilancia y mantenimiento ven todas sus opciones en la barra;
 // administración, agrupadas en "Condominio" y "Finanzas" para que quepan.
-const ROLES_MENU_PLANO = ['CONDOMINO', 'VIGILANCIA', 'MANTENIMIENTO'];
 const menuEscritorio = computed(() => {
     if (ROLES_MENU_PLANO.includes(tipoUsuario.value)) {
         return menuCondominios.value.map((i) => ({ ...i, key: i.href }));
